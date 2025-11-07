@@ -12,15 +12,23 @@ module Irrgarten
     end
 
     def labyrinth
-      @labyrinth
+      @labyrinth.to_s
     end
 
     def players
-      @players
+      string = ""
+      for player in @players
+        string += player
+      end
+      string
     end
 
     def monsters
-      @monsters
+      string = ""
+      for monster in @monster
+        string += monster.to_s
+      end
+      string
     end
 
     def current_player
