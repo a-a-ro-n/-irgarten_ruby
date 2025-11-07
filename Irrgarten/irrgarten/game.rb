@@ -33,7 +33,7 @@ module Irrgarten
     end
 
     def game_state
-      game = Irrgarten::Game.new(@lab.to_s, @players.to_s, @monsters.to_s, @current_player_index, finished, @log)
+      game = Irrgarten::GameState.new(@lab.to_s, @players.to_s, @monsters.to_s, @current_player_index, finished, @log)
       game
     end
 
