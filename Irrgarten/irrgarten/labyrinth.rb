@@ -42,24 +42,26 @@ module Irrgarten
     def have_a_winner?
       winner = false
 
-      for fil in @players_pos do
-        for col in @player_pos do
-          if @player_pos != nil && @player_pos[fil][col].row == @exit_row && @player_pos[fil][col].col == @exit_col
+      for i in 0...@n_rows do
+        for j in 0...@n_cols do
+          player = @player_pos[i][j]
+          if player != nil && i == @exit_row && j == @exit_col
             winner = true
           end
         end
       end
+
       winner
     end
 
     def to_s
       result = ""
-      for row in @grid do
-        for col in row do
-          if @player_pos[row][col] != nil
-            result += " #{@player_pos[row][col].number}"
+      for i in 0..@n_rows-1 do
+        for j in 0..@n_cols-1 do
+          if @player_pos[i][j] != nil
+            result += " #{@player_pos[i][j].number}"
           else
-            result += " #{@grid[row][col]}"
+            result += " #{@grid[i][j]}"
           end
         result += "\n"
         end
