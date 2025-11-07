@@ -57,16 +57,19 @@ module Irrgarten
     def to_s
       result = ""
       for i in 0..@n_rows-1 do
+        row_string = ""
         for j in 0..@n_cols-1 do
           if @player_pos[i][j] != nil
-            result += " #{@player_pos[i][j].number}"
+            row_string += " #{@player_pos[i][j].number}"
           else
-            result += " #{@grid[i][j]}"
+            row_string += " #{@grid[i][j]}"
           end
-        result += "\n"
         end
-        result
+
+        result += row_string + "\n"
       end
+
+      return result
     end
 
     def add_monster(row, col, monster)
