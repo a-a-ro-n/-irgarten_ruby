@@ -95,7 +95,7 @@ module Irrgarten
     end
 
     private def manage_reward(winner)
-      if winer == Irrgarten::GameCharacter::PLAYER
+      if winner == Irrgarten::GameCharacter::PLAYER
         @players[@current_player_index].receive_reward
         log_player_won
       else
