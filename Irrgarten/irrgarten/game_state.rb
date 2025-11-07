@@ -18,7 +18,7 @@ module Irrgarten
     def players
       string = ""
       for player in @players
-        string += player
+        string += player.to_s
       end
       string
     end
