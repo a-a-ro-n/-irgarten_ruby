@@ -1,0 +1,206 @@
+# frozen_string_literal: true
+module Irrgarten
+  class Player
+    MAX_WEAPONS = 2
+    MAX_SHIELDS = 3
+    INITIAL_HEALTH = 10
+    HIT2LOSE = 3
+
+    @weapons = []
+    @shields = []
+
+    def initialize(number, intelligence, strength)
+      @number = number
+      @intelligence = intelligence
+      @strength = strength
+      @name = "Player# #{@number}"
+    end
+
+    def resurrect
+      @consecutive_hits = 0
+      @health = INITIAL_HEALTH
+    end
+
+    def row
+      @row
+    end
+
+    def col
+      @col
+    end
+
+    def number
+      @number
+    end
+
+    def set_pos(row, col)
+      @row = row
+      @col = col
+    end
+
+    def dead
+      @health <= 0
+    end
+
+    def attack
+      @strengh + sum_weapons
+    end
+
+    def to_s
+      string = "\nName: " + @name + "\nPosicion: (" + @row.to_s + ", " + @col.to_s + ")\nIntelligence: " + @intelligence.to_s + "\n
+              Strength: " + @strength.to_s + "\nHealth: " + @health.to_s + "\n"
+      string
+    end
+
+    private def receive_weapons(weapon)
+      i = @weapons.size - 1
+
+      while i >= 0
+        weapon_i = @weapons[i]
+
+        if weapon_i.discard
+          @weapons.delete_at(i)
+        end
+
+        i -= 1
+      end
+
+      if @weapons.size < MAX_WEAPONS
+        @weapons.push(weapon)
+      end
+    end
+
+    private def receive_shields(shield)
+      i = @shields.size - 1
+
+      while i >= 0
+        shield_i = @shields[i]
+
+        if shield_i.discard
+          @shields.delete_at(i)
+        end
+
+        i -= 1
+      end
+
+      if @shields.size < MAX_SHIELDS
+        @shields.push(shield)
+      end
+    end
+
+    private def new_shield
+      Irrgarten::Shield s = Shield(Dice.shield_power, Dice.use_left).new
+      s
+    end
+
+    private def new_weapon
+      Irrgarten::Weapon w = Weapon(Dice.weapon_power, Dice.use_left).new
+      w
+    end
+
+    private def sum_weapons
+      sum = 0
+
+      for weapon in @weapons do
+        sum += weapon.attack
+      end
+
+      sum
+    end
+
+    private def sum_shields
+      sum = 0
+
+      for shield in @shields do
+        sum += shield.protect
+      end
+
+      sum
+    end
+
+    private def defensive_energy
+      @intelligence + sum_shields
+    end
+
+    private def manage_hit(received_attack)
+      defense = defensive_energy
+      lose = false
+
+      if defense < received_attack
+        got_wounded
+        inc_consecutive_hits
+      else
+        reset_hit
+      end
+
+      if (@consecutive_hits == HIT2LOSE) || dead
+        lose = true
+      end
+
+      lose
+    end
+
+    private def reset_hit
+      @consecutive_hits = 0
+    end
+
+    private def got_wounded
+      @health -= 1
+    end
+
+    private def inc_consecutive_hits
+      @consecutive_hits += 1
+    end
+
+    def receive_reward
+      w_reward = Irrgarten::Dice.weapons_reward
+      s_reward = Irrgarten::Dice.shield_reward
+
+      w_reward.times do
+        wnew = new_weapon
+        receive_weapons(wnew)
+      end
+
+      s_reward.times do
+        snew = new_shield
+        receive_shields(snew)
+      end
+      extra_health = Irrgarten::Dice.health_reward
+      @health += extra_health
+    end
+
+    def defend(received_attack)
+      manage_hit(received_attack)
+      defense = defensive_energy
+      lose = false
+
+      if defense < received_attack
+        got_wounded
+        inc_consecutive_hits
+      else
+        reset_hit
+      end
+
+      if (@consecutive_hits == HIT2LOSE) || dead
+        reset_hit
+        lose = true
+      end
+
+      lose
+    end
+
+    def move(direction, valid_moves)
+      size = valid_moves.size
+      contained = valid_moves.include?(direction)
+      result = direction
+
+      if (size > 0) &&  !contained
+        first_element = valid_moves[0]
+        result = first_element
+      end
+
+      result
+    end
+  end
+end
+
