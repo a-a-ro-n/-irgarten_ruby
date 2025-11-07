@@ -171,7 +171,7 @@ module Irrgarten
         manage_resurrection
       end
 
-      end_game = finished?
+      end_game = finished
 
       unless end_game
         next_player

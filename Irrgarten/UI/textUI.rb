@@ -29,21 +29,21 @@ module UI
       while (!got_input)
         c = read_char
         case c
-          when "\ew"
+          when "w"
             puts "UP ARROW"
-            output = Irrgarten::Directions::UP
+            output = Directions::UP
             got_input = true
-          when "\es"
+          when "s"
             puts "DOWN ARROW"
-            output = Irrgarten::Directions::DOWN
+            output = Directions::DOWN
             got_input = true
-          when "\ed"
+          when "d"
             puts "RIGHT ARROW"
-            output = Irrgarten::Directions::RIGHT
+            output = Directions::RIGHT
             got_input = true
-          when "\ea"
+          when "a"
             puts "LEFT ARROW"
-            output = Irrgarten::Directions::LEFT
+            output = Directions::LEFT
             got_input = true
           when "\u0003"
             puts "CONTROL-C"
