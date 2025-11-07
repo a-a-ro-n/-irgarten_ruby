@@ -6,8 +6,7 @@ module Irrgarten
     @@INITIAL_HEALTH = 10
     @@HIT2LOSE = 3
 
-    @weapons = []
-    @shields = []
+
     def initialize(number, intelligence, strength)
       @number = number
       @intelligence = intelligence
@@ -16,6 +15,10 @@ module Irrgarten
 
       @health = @@INITIAL_HEALTH
       @consecutive_hits = 0
+
+      @weapons = []
+      @shields = []
+
       @weapons.push(new_weapon)
       @shields.push(new_shield)
     end

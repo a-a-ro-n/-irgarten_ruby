@@ -23,6 +23,7 @@ module Irrgarten
         @players.push(player)
         i += 1
       end while (i < nplayers)
+      configure_labyrinth
       @current_player_index = Irrgarten::Dice.who_starts(i)
       @lab.spread_players(@players)
       @log = "--- Start_Game ---"
@@ -47,6 +48,8 @@ module Irrgarten
 
         monster.set_pos(pos[0],pos[1])
         @monsters.push(monster)
+
+        i += 1
       end while i < 3
 
       add_block(Orientation::VERTICAL,1,3,5)
