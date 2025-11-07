@@ -88,8 +88,6 @@ module Irrgarten
     end
 
     def add_block(orientation, start_row, start_col, length)
-      inc_row
-      inc_col
       if orientation == Orientation::VERTICAL
         inc_row = 1
         inc_col = 0

@@ -29,19 +29,19 @@ module UI
       while (!got_input)
         c = read_char
         case c
-          when "\e[A"
+          when "\ew"
             puts "UP ARROW"
             output = Irrgarten::Directions::UP
             got_input = true
-          when "\e[B"
+          when "\es"
             puts "DOWN ARROW"
             output = Irrgarten::Directions::DOWN
             got_input = true
-          when "\e[C"
+          when "\ed"
             puts "RIGHT ARROW"
             output = Irrgarten::Directions::RIGHT
             got_input = true
-          when "\e[D"
+          when "\ea"
             puts "LEFT ARROW"
             output = Irrgarten::Directions::LEFT
             got_input = true

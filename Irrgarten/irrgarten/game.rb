@@ -17,6 +17,7 @@ module Irrgarten
       @players = []
       @monsters = []
       @lab = Irrgarten::Labyrinth.new(@@NROWS,@@NCOLS,Irrgarten::Dice.random_pos(@@NROWS),Irrgarten::Dice.random_pos(@@NCOLS))
+      @log = "--- Start_Game ---\n"
       i = 0
       begin
         player = Irrgarten::Player.new(i.to_s, Irrgarten::Dice.random_intelligence, Irrgarten::Dice.random_strength)
@@ -26,7 +27,7 @@ module Irrgarten
       configure_labyrinth
       @current_player_index = Irrgarten::Dice.who_starts(i)
       @lab.spread_players(@players)
-      @log = "--- Start_Game ---"
+
     end
 
     def finished

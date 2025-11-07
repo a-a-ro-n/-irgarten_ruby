@@ -24,8 +24,8 @@ module Irrgarten
     end
 
     def to_s
-      string = "Nombre: " + @name + "\nPosicion: (" + @row + "," + @col + ")\nIntelligence: " + @intelligence +
-               "\nStrength: " + @strength + "\nHealth: " + @health
+      string = "Nombre: " + @name + "\nPosicion: (" + @row.to_s + "," + @col.to_s + ")\nIntelligence: " + @intelligence.to_s +
+               "\nStrength: " + @strength.to_s + "\nHealth: " + @health.to_s
       string
     end
 
