@@ -43,12 +43,22 @@ module Irrgarten
     end
 
     def attack
-      @strengh + sum_weapons
+      @strength + sum_weapons
     end
 
     def to_s
       string = "\nName: " + @name + "\nPosicion: (" + @row.to_s + ", " + @col.to_s + ")\nIntelligence: " + @intelligence.to_s + "\n
-              Strength: " + @strength.to_s + "\nHealth: " + @health.to_s + "\n"
+              Strength: " + @strength.to_s + "\nHealth: " + @health.to_s +
+              "\nWeapons: \n"
+              for w in @weapons do
+                string += w.to_s + "\n"
+              end
+
+              string += "Shields: \n"
+              for s in @shields do
+                string += s.to_s + "\n"
+              end
+
       string
     end
 
