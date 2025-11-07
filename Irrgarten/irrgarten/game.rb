@@ -55,7 +55,7 @@ module Irrgarten
       @log += "Labyrinth configured: #{@monsters.length}  monsters added.\n"
     end
 
-    private def nex_player
+    private def next_player
       @current_player_index = (@current_player_index + 1) % @players.length
     end
 
@@ -64,7 +64,7 @@ module Irrgarten
       current_row = current_player.row
       current_col = current_player.col
 
-      valid_moves(current_row, current_col)
+      current_player.move(preferred_direction, valid_moves(current_row, current_col))
     end
 
     private def valid_moves(row, col)
@@ -78,18 +78,20 @@ module Irrgarten
       player_attack = current_player.attack
       lose = monster.defend(player_attack)
 
-      while !lose && (round < MAX_ROUNDS)
-        winer = Irrgarten::GameCharacter::MONSTER
+      while !lose && (round < @@MAX_ROUNDS)
+        winner = Irrgarten::GameCharacter::MONSTER
         rounds += 1
         monster_attack = monster.attack
         lose = current_player.defend(monster_attack)
 
-        if !lose
+        unless lose
           player_attack = current_player.attack
           winner = Irrgarten::GameCharacter::PLAYER
           lose = monster.defend(player_attack)
         end
       end
+      log_rounds(rounds,@@MAX_ROUNDS)
+      winner
     end
 
     private def manage_reward(winner)
@@ -135,18 +137,13 @@ module Irrgarten
     private def log_player_no_orders
       @log += "Player# #{@players[@current_player_index].number} unexpected order\n"
     end
-
     private def log_no_monster
       @log += "Player# #{@players[@current_player_index].number} moves to a empty cell or can't move\n"
     end
-
     private def log_rounds(rounds, max)
       @log += "Done #{rounds} of #{max}\n"
     end
-
     def next_step(preferred_direction)
-      @log = ""
-
       current_player = @players[@current_player_index]
       is_dead = current_player.dead
       winner = nil
@@ -172,23 +169,19 @@ module Irrgarten
 
       end_game = finished?
 
-      if !end_game
+      unless end_game
         next_player
       end
 
-      return end_game
+      end_game
     end
-
-
     private def add_block(orientation, start_row, start_col, length)
       @lab.add_block(orientation, start_row, start_col, length)
     end
-
     private def put_player(direction, player_ignored)
-      return @lab.put_player(direction, @players[@current_player_index])
+      @lab.put_player(direction, @players[@current_player_index])
     end
 
   end
-
 end
 
