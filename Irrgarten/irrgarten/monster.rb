@@ -3,10 +3,10 @@ module Irrgarten
   class Monster
     INITIAL_HEALTH = 5
 
-    def initialize(name, intelligence, strenth)
+    def initialize(name, intelligence, strength)
       @name = name
       @intelligence = intelligence
-      @strenth = strenth
+      @strength = strength
       @health = INITIAL_HEALTH
     end
 
@@ -15,7 +15,7 @@ module Irrgarten
     end
 
     def attack
-      Irrgarten::Dice.intensity(@strenth)
+      Irrgarten::Dice.intensity(@strength)
     end
 
     def set_pos(row, col)
@@ -34,9 +34,9 @@ module Irrgarten
     end
 
     def defend(received_attack)
-      id_dead = dead
+      is_dead = dead
 
-      if !is_dead
+      unless is_dead
         defensive_energy = Irrgarten::Dice.intensity(@intelligence)
 
         if defensive_energy < received_attack
