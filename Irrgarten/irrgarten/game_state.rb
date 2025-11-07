@@ -17,32 +17,28 @@ module Irrgarten
 
     def players
       string = "[\n"
-
       first = true
       for player in @players do
-        until first
+        if !first
           string += ", \n"
         end
         string += player.to_s
         first = false
       end
-
       string += "\n]"
       string
     end
 
     def monsters
       string = "[\n"
-
       first = true
       for monster in @monsters do
-        until first
+        if !first
           string += ", \n"
         end
         string += monster.to_s
         first = false
       end
-
       string += "\n]"
       string
     end

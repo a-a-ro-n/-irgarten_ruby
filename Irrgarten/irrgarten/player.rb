@@ -6,6 +6,8 @@ module Irrgarten
     @@INITIAL_HEALTH = 10
     @@HIT2LOSE = 3
 
+    @weapons = []
+    @shields = []
     def initialize(number, intelligence, strength)
       @number = number
       @intelligence = intelligence
@@ -14,8 +16,8 @@ module Irrgarten
 
       @health = @@INITIAL_HEALTH
       @consecutive_hits = 0
-      @weapons = []
-      @shields = []
+      @weapons.push(new_weapon)
+      @shields.push(new_shield)
     end
 
     def resurrect
@@ -49,18 +51,21 @@ module Irrgarten
     end
 
     def to_s
-      string = "\nName: " + @name.to_s + "\nPosicion: (" + @row.to_s + ", " + @col.to_s + ")\nIntelligence: " + @intelligence.to_s + "\n" +
-               "Strength: " + @strength.to_s + "\nHealth: " + @health.to_s +
+      string = "\nName: " + @name.to_s +
+               "\nPosicion: (" + @row.to_s + ", " + @col.to_s +
+               ")\nIntelligence: " + @intelligence.to_s +
+               "\nStrength: " + @strength.to_s +
+               "\nHealth: " + @health.to_s +
                "\nWeapons: \n"
 
-          for w in @weapons do
-            string += w.to_s + "\n"
-          end
+      for w in @weapons do
+        string += w.to_s + "\n"
+      end
 
-          string += "Shields: \n"
-          for s in @shields do
-            string += s.to_s + "\n"
-          end
+      string += "Shields: \n"
+      for s in @shields do
+        string += s.to_s + "\n"
+      end
 
       string
     end
@@ -102,12 +107,12 @@ module Irrgarten
     end
 
     private def new_shield
-      Irrgarten::Shield s = Shield(Dice.shield_power, Dice.use_left).new
+      s = Irrgarten::Shield.new(Dice.shield_power, Dice.use_left)
       s
     end
 
     private def new_weapon
-      Irrgarten::Weapon w = Weapon(Dice.weapon_power, Dice.use_left).new
+      w = Irrgarten::Weapon.new(Dice.weapon_power, Dice.use_left)
       w
     end
 
