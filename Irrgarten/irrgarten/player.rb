@@ -1,24 +1,26 @@
 # frozen_string_literal: true
 module Irrgarten
   class Player
-    MAX_WEAPONS = 2
-    MAX_SHIELDS = 3
-    INITIAL_HEALTH = 10
-    HIT2LOSE = 3
-
-    @weapons = []
-    @shields = []
+    @@MAX_WEAPONS = 2
+    @@MAX_SHIELDS = 3
+    @@INITIAL_HEALTH = 10
+    @@HIT2LOSE = 3
 
     def initialize(number, intelligence, strength)
       @number = number
       @intelligence = intelligence
       @strength = strength
       @name = "Player# #{@number}"
+
+      @health = @@INITIAL_HEALTH
+      @consecutive_hits = 0
+      @weapons = []
+      @shields = []
     end
 
     def resurrect
       @consecutive_hits = 0
-      @health = INITIAL_HEALTH
+      @health = @@INITIAL_HEALTH
     end
 
     def row
@@ -47,17 +49,18 @@ module Irrgarten
     end
 
     def to_s
-      string = "\nName: " + @name + "\nPosicion: (" + @row.to_s + ", " + @col.to_s + ")\nIntelligence: " + @intelligence.to_s + "\n
-              Strength: " + @strength.to_s + "\nHealth: " + @health.to_s +
-              "\nWeapons: \n"
-              for w in @weapons do
-                string += w.to_s + "\n"
-              end
+      string = "\nName: " + @name.to_s + "\nPosicion: (" + @row.to_s + ", " + @col.to_s + ")\nIntelligence: " + @intelligence.to_s + "\n" +
+               "Strength: " + @strength.to_s + "\nHealth: " + @health.to_s +
+               "\nWeapons: \n"
 
-              string += "Shields: \n"
-              for s in @shields do
-                string += s.to_s + "\n"
-              end
+          for w in @weapons do
+            string += w.to_s + "\n"
+          end
+
+          string += "Shields: \n"
+          for s in @shields do
+            string += s.to_s + "\n"
+          end
 
       string
     end
@@ -75,7 +78,7 @@ module Irrgarten
         i -= 1
       end
 
-      if @weapons.size < MAX_WEAPONS
+      if @weapons.size < @@MAX_WEAPONS
         @weapons.push(weapon)
       end
     end
@@ -93,7 +96,7 @@ module Irrgarten
         i -= 1
       end
 
-      if @shields.size < MAX_SHIELDS
+      if @shields.size < @@MAX_SHIELDS
         @shields.push(shield)
       end
     end
@@ -143,7 +146,7 @@ module Irrgarten
         reset_hit
       end
 
-      if (@consecutive_hits == HIT2LOSE) || dead
+      if (@consecutive_hits == @@HIT2LOSE) || dead
         lose = true
       end
 
@@ -191,7 +194,7 @@ module Irrgarten
         reset_hit
       end
 
-      if (@consecutive_hits == HIT2LOSE) || dead
+      if (@consecutive_hits == @@HIT2LOSE) || dead
         reset_hit
         lose = true
       end
