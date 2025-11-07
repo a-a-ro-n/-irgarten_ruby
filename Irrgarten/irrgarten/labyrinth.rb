@@ -35,7 +35,7 @@ module Irrgarten
     def spread_players(players)
       for player in players
         pos = random_empty_pos
-        put_player_2d(-1,-1,pos[ROW],pos[COL],player)
+        put_player_2d(-1,-1,pos[@@ROW],pos[@@COL],player)
       end
     end
 

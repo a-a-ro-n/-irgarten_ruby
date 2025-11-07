@@ -20,8 +20,8 @@ module Main
       players = 2
       game = Irrgarten::Game.new(players)
       view = UI::TextUI.new
-      controller = controller.new(game,view)
-      controller.run
+      control = Control::Controller.new(game,view)
+      control.play
 
       puts "\n*** ¡FIN DEL JUEGO! ***"
     end
