@@ -2,8 +2,9 @@
 
 module Irrgarten
   class Game
-    MAX_ROUNDS = 10
-
+    @@MAX_ROUNDS = 10
+    @@NROWS = 10
+    @@NCOLS = 10
     def num_players
       @num_players
     end
@@ -15,14 +16,13 @@ module Irrgarten
     def initialize(nplayers)
       @players = []
       @monsters = []
-      @lab = Irrgarten::Labyrinth.new(0,0,0,0)
+      @lab = Irrgarten::Labyrinth.new(@@NROWS,@@NCOLS,Irrgarten::Dice.random_pos(@@NROWS),Irrgarten::Dice.random_pos(@@NCOLS))
       i = 0
       begin
         player = Irrgarten::Player.new(i.to_s, Irrgarten::Dice.random_intelligence, Irrgarten::Dice.random_strength)
         @players.push(player)
         i += 1
       end while (i < nplayers)
-      @num_players = i
       @current_player_index = Irrgarten::Dice.who_starts(i)
       @lab.spread_players(@players)
       @log = "--- Start_Game ---"
@@ -32,12 +32,8 @@ module Irrgarten
       @lab.have_a_winner?
     end
 
-    def nex_step(preferred_direction)
-
-    end
-
     def game_state
-      Irrgarten::GameState game = Irrgarten::Game.new(@lab.to_s, @players.to_s, @monsters.to_s, @num_players, finished, @log)
+      Irrgarten::GameState game = Irrgarten::Game.new(@lab.to_s, @players.to_s, @monsters.to_s, @current_player_index, finished, @log)
       game
     end
 
@@ -45,13 +41,22 @@ module Irrgarten
       i = 0
       begin
         monster = Irrgarten::Monster.new("Monster# #{i}", Irrgarten::Dice.random_intelligence, Irrgarten::Dice.random_strength)
-        row,col = @lab.random_empty_pos
-        monster.set_pos(row,col)
-        @lab.add_monster(row,col,monster)
+        pos = @lab.random_empty_pos
+
+        @lab.add_monster(pos[0],pos[1],monster)
+
+        monster.set_pos(pos[0],pos[1])
         @monsters.push(monster)
-        @num_monsters += 1
       end while i < 3
-      @log += "Labyrinth configured with #{@num_monsters} monsters.\n"
+
+      add_block(Orientation::VERTICAL,1,3,5)
+      add_block(Orientation::HORIZONTAL,5,1,4)
+      @log += "Labyrinth configured: Blocks added\n"
+      @log += "Labyrinth configured: #{@monsters.length}  monsters added.\n"
+    end
+
+    private def nex_player
+      @current_player_index = (@current_player_index + 1) % @players.length
     end
 
     private def actual_direction(preferred_direction)
