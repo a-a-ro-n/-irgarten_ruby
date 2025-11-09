@@ -56,12 +56,12 @@ module Irrgarten
     def to_s
       string = "\nName: #{@name}\nPosicion: (#{@row}, #{@col})\nIntelligence: #{@intelligence}\nStrength: #{@strength}\nHealth: #{@health}"
 
-              string += "\nWeapons: \n"
+              string += "\n\nWeapons: \n"
               for w in @weapons do
                 string += "#{w}\n"
               end
 
-              string += "\n\nShields: \n"
+              string += "\nShields: \n"
               for s in @shields do
                 string += "#{s}\n"
               end
