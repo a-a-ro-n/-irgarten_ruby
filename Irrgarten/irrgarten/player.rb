@@ -54,16 +54,16 @@ module Irrgarten
     end
 
     def to_s
-      string = "\nName: #{@name.to_s}\nPosicion: (#{@row.to_s}, #{@col.to_s})\nIntelligence: #{@intelligence.to_s}\nStrength: #{@strength.to_s}\nHealth: #{@health.to_s}"
+      string = "\nName: #{@name}\nPosicion: (#{@row}, #{@col})\nIntelligence: #{@intelligence}\nStrength: #{@strength}\nHealth: #{@health}"
 
               string += "\nWeapons: \n"
               for w in @weapons do
-                string += "#{w.to_s}\n"
+                string += "#{w}\n"
               end
 
               string += "\n\nShields: \n"
               for s in @shields do
-                string += "#{s.to_s}\n"
+                string += "#{s}\n"
               end
 
       string
