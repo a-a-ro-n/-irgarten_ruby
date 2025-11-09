@@ -60,7 +60,7 @@ module Irrgarten
         row_string = ""
         for j in 0..@n_cols-1 do
           if @player_pos[i][j] != nil
-            if @grid[i][j] == @@COMBAT_CHAR
+            if combat_pos(i,j)
               row_string += " #{@@COMBAT_CHAR}"
             else
               row_string += " #{@player_pos[i][j].number}"
@@ -69,7 +69,6 @@ module Irrgarten
             row_string += " #{@grid[i][j]}"
           end
         end
-
         result += row_string + "\n"
       end
 
@@ -158,7 +157,12 @@ module Irrgarten
 
     private def update_old_pos(row, col)
       if pos_ok(row, col)
-        @grid[row][col] = combat_pos(row, col) ? @@MONSTER_CHAR : @@EMPTY_CHAR
+        if combat_pos(row, col)
+          @grid[row][col] = @@MONSTER_CHAR
+        else
+          @grid[row][col] = @@EMPTY_CHAR
+        end
+
         @player_pos[row][col] = nil
       end
     end
