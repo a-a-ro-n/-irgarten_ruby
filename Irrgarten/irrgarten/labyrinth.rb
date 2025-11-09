@@ -192,7 +192,7 @@ module Irrgarten
       monster = nil
       if can_step_on(row, col)
         if pos_ok(old_row, old_col)
-          @player_pos[old_row][old_col].update_old_pos(row, col)
+          update_old_pos(row, col)
         end
 
         is_monster_pos = monster_pos(row, col)
@@ -200,6 +200,7 @@ module Irrgarten
         if is_monster_pos
           set_c(row, col, @@COMBAT_CHAR)
           monster = @monster_pos[row][col]
+          set_p(row, col, player)
         else
           player_character = player.number
           set_c(row, col, player_character)
