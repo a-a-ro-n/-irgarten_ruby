@@ -54,8 +54,7 @@ module Irrgarten
     end
 
     def to_s
-      string = "\nName: #{@name.to_s}\nPosicion: (#{@row.to_s}, #{@col.to_s})
-                \nIntelligence: #{@intelligence.to_s}\nStrength: #{@strength.to_s}\nHealth: #{@health.to_s}"
+      string = "\nName: #{@name.to_s}\nPosicion: (#{@row.to_s}, #{@col.to_s})\nIntelligence: #{@intelligence.to_s}\nStrength: #{@strength.to_s}\nHealth: #{@health.to_s}"
 
               string += "\nWeapons: \n"
               for w in @weapons do
