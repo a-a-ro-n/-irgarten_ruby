@@ -54,21 +54,20 @@ module Irrgarten
     end
 
     def to_s
-      string = "\nName: " + @name.to_s +
-               "\nPosicion: (" + @row.to_s + ", " + @col.to_s +
+      string = "\nName: " + @name.to_s + "\nPosicion: (" + @row.to_s + ", " + @col.to_s +
                ")\nIntelligence: " + @intelligence.to_s +
-               "\nStrength: " + @strength.to_s +
-               "\nHealth: " + @health.to_s +
-               "\nWeapons: \n"
+               "\nStrength: " + @strength.to_s + "\nHealth: " + @health.to_s +
+               "\nWeapons(damage): " + sum_weapons.to_s + "\nShields(defend): " + sum_shields.to_s + "\n"
 
-      for w in @weapons do
-        string += w.to_s + "\n"
-      end
+              string += "\nWeapons: \n"
+              for w in @weapons do
+                string += w.to_s + "\n"
+              end
 
-      string += "Shields: \n"
-      for s in @shields do
-        string += s.to_s + "\n"
-      end
+              string += "\n\nShields: \n"
+              for s in @shields do
+                string += s.to_s + "\n"
+              end
 
       string
     end
@@ -76,14 +75,16 @@ module Irrgarten
     private def receive_weapons(weapon)
       i = @weapons.size - 1
 
-      while i >= 0
-        weapon_i = @weapons[i]
+      if @weapons.length > 0
+        while i >= 0
+          weapon_i = @weapons[i]
 
-        if weapon_i.discard
-          @weapons.delete_at(i)
+          if weapon_i.discard
+            @weapons.delete_at(i)
+          end
+
+          i -= 1
         end
-
-        i -= 1
       end
 
       if @weapons.size < @@MAX_WEAPONS
@@ -94,14 +95,16 @@ module Irrgarten
     private def receive_shields(shield)
       i = @shields.size - 1
 
-      while i >= 0
-        shield_i = @shields[i]
+      if @shields.length > 0
+        while i >= 0
+          shield_i = @shields[i]
 
-        if shield_i.discard
-          @shields.delete_at(i)
+          if shield_i.discard
+            @shields.delete_at(i)
+          end
+
+          i -= 1
         end
-
-        i -= 1
       end
 
       if @shields.size < @@MAX_SHIELDS
@@ -110,13 +113,11 @@ module Irrgarten
     end
 
     private def new_shield
-      s = Irrgarten::Shield.new(Dice.shield_power, Dice.use_left)
-      s
+      Irrgarten::Shield.new(Dice.shield_power, Dice.use_left)
     end
 
     private def new_weapon
-      w = Irrgarten::Weapon.new(Dice.weapon_power, Dice.use_left)
-      w
+      Irrgarten::Weapon.new(Dice.weapon_power, Dice.use_left)
     end
 
     private def sum_weapons
@@ -154,7 +155,7 @@ module Irrgarten
         reset_hit
       end
 
-      if (@consecutive_hits == @@HIT2LOSE) || dead
+      if @consecutive_hits == @@HIT2LOSE || dead
         lose = true
       end
 
@@ -192,22 +193,6 @@ module Irrgarten
 
     def defend(received_attack)
       manage_hit(received_attack)
-      defense = defensive_energy
-      lose = false
-
-      if defense < received_attack
-        got_wounded
-        inc_consecutive_hits
-      else
-        reset_hit
-      end
-
-      if (@consecutive_hits == @@HIT2LOSE) || dead
-        reset_hit
-        lose = true
-      end
-
-      lose
     end
 
     def move(direction, valid_moves)
