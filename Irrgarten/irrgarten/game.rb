@@ -69,19 +69,19 @@ module Irrgarten
     private def combat(monster)
       current_player = @players[@current_player_index]
       rounds = 0
-      winner = Irrgarten::GameCharacter::PLAYER
+      winner = GameCharacter::PLAYER
       player_attack = current_player.attack
       lose = monster.defend(player_attack)
 
-      while !lose && (round < @@MAX_ROUNDS)
-        winner = Irrgarten::GameCharacter::MONSTER
+      while !lose && (rounds < @@MAX_ROUNDS)
+        winner = GameCharacter::MONSTER
         rounds += 1
         monster_attack = monster.attack
         lose = current_player.defend(monster_attack)
 
         unless lose
           player_attack = current_player.attack
-          winner = Irrgarten::GameCharacter::PLAYER
+          winner = GameCharacter::PLAYER
           lose = monster.defend(player_attack)
         end
       end
@@ -90,7 +90,7 @@ module Irrgarten
     end
 
     private def manage_reward(winner)
-      if winner == Irrgarten::GameCharacter::PLAYER
+      if winner == GameCharacter::PLAYER
         @players[@current_player_index].receive_reward
         log_player_won
       else

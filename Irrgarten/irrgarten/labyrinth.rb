@@ -60,7 +60,11 @@ module Irrgarten
         row_string = ""
         for j in 0..@n_cols-1 do
           if @player_pos[i][j] != nil
-            row_string += " #{@player_pos[i][j].number}"
+            if @grid[i][j] == @@COMBAT_CHAR
+              row_string += " #{@@COMBAT_CHAR}"
+            else
+              row_string += " #{@player_pos[i][j].number}"
+            end
           else
             row_string += " #{@grid[i][j]}"
           end
@@ -163,9 +167,9 @@ module Irrgarten
       next_pos = [row, col]
       case direction
         when Directions::UP
-          next_pos[@@ROW] += 1
-        when Directions::DOWN
           next_pos[@@ROW] -= 1
+        when Directions::DOWN
+          next_pos[@@ROW] += 1
         when Directions::LEFT
           next_pos[@@COL] -= 1
         when Directions::RIGHT
@@ -192,7 +196,7 @@ module Irrgarten
       monster = nil
       if can_step_on(row, col)
         if pos_ok(old_row, old_col)
-          update_old_pos(row, col)
+          update_old_pos(old_row, old_col)
         end
 
         is_monster_pos = monster_pos(row, col)
