@@ -5,13 +5,6 @@ module Irrgarten
     @@MAX_ROUNDS = 10
     @@NROWS = 10
     @@NCOLS = 10
-    def num_players
-      @num_players
-    end
-
-    def num_monsters
-      @num_monsters
-    end
 
     def initialize(nplayers)
       @players = []
@@ -25,9 +18,8 @@ module Irrgarten
         i += 1
       end while (i < nplayers)
       configure_labyrinth
-      @current_player_index = Irrgarten::Dice.who_starts(i)
+      @current_player_index = Irrgarten::Dice.who_starts(nplayers)
       @lab.spread_players(@players)
-
     end
 
     def finished
@@ -35,8 +27,7 @@ module Irrgarten
     end
 
     def game_state
-      game = Irrgarten::GameState.new(@lab.to_s, @players, @monsters, @current_player_index, finished, @log)
-      game
+      Irrgarten::GameState.new(@lab.to_s, @players, @monsters, @current_player_index, finished, @log)
     end
 
     private def configure_labyrinth
@@ -109,17 +100,12 @@ module Irrgarten
 
     private def manage_resurrection
       resurrect = Irrgarten::Dice.resurrect_player
-
       if resurrect
         @players[@current_player_index].resurrect
         log_resurrected
       else
         log_player_skip_turn
       end
-    end
-
-    private def log_playerWon
-      @log += "Player# " + @players[@current_player_index].number + "\n"
     end
 
     private def log_player_won
@@ -142,7 +128,7 @@ module Irrgarten
       @log += "Player# #{@players[@current_player_index].number} unexpected order\n"
     end
     private def log_no_monster
-      @log += "Player# #{@players[@current_player_index].number} moves to a empty cell or can't move\n"
+      @log += "Player# #{@players[@current_player_index].number} move\n"
     end
     private def log_rounds(rounds, max)
       @log += "Done #{rounds} of #{max}\n"
@@ -150,7 +136,6 @@ module Irrgarten
     def next_step(preferred_direction)
       current_player = @players[@current_player_index]
       is_dead = current_player.dead
-      winner = nil
 
       if !is_dead
         direction = actual_direction(preferred_direction)
@@ -159,7 +144,7 @@ module Irrgarten
           log_player_no_orders
         end
 
-        monster = @lab.put_player(direction, current_player)
+        monster = put_player(direction, current_player)
 
         if monster.nil?
           log_no_monster
