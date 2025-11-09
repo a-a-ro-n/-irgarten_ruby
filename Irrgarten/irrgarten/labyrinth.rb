@@ -18,8 +18,8 @@ module Irrgarten
       @exit_col = exit_col
 
       @grid = Array.new(@n_rows){Array.new(@n_cols)}
-      @monster_pos = Array.new(@n_cols){Array.new(@n_rows)}
-      @player_pos = Array.new(@n_cols){Array.new(@n_rows)}
+      @monster_pos = Array.new(@n_rows){Array.new(@n_cols)}
+      @player_pos = Array.new(@n_rows){Array.new(@n_cols)}
 
       for i in 0..@n_rows-1 do
         for j in 0..@n_cols-1 do
@@ -163,13 +163,13 @@ module Irrgarten
       next_pos = [row, col]
       case direction
         when Directions::UP
-          next_pos[1] += 1
+          next_pos[@@ROW] += 1
         when Directions::DOWN
-          next_pos[1] -= 1
+          next_pos[@@ROW] -= 1
         when Directions::LEFT
-          next_pos[0] -= 1
+          next_pos[@@COL] -= 1
         when Directions::RIGHT
-          next_pos[0] += 1
+          next_pos[@@COL] += 1
       end
       next_pos
     end
@@ -190,13 +190,9 @@ module Irrgarten
 
     private def put_player_2d(old_row, old_col, row, col, player)
       monster = nil
-      p = @player_pos[row][col]
-
       if can_step_on(row, col)
         if pos_ok(old_row, old_col)
-          if p == player
-            update_old_pos(row, col)
-          end
+          @player_pos[old_row][old_col].update_old_pos(row, col)
         end
 
         is_monster_pos = monster_pos(row, col)
