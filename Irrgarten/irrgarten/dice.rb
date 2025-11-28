@@ -66,6 +66,20 @@ module Irrgarten
       prob_no_discard = (uses.to_f / MAX_USES) * 10
       (rand(10).to_f + 1) > prob_no_discard
     end
+
+    def self.next_step(preference,valid_moves, intelligence)
+      if valid_moves.empty?
+        result = preference
+      else
+        if @random.rand(MAX_STRENGTH) < intelligence
+          result = preference
+        else
+          result = valid_moves[Dice.random_pos(valid_moves.length)]
+        end
+      end
+      result
+    end
+
   end
 end
 

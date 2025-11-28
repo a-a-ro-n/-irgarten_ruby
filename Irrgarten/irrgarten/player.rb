@@ -1,20 +1,18 @@
 # frozen_string_literal: true
 module Irrgarten
-  class Player
+  class Player < LabyrinthCharacter
     @@MAX_WEAPONS = 2
     @@MAX_SHIELDS = 3
     @@INITIAL_HEALTH = 10
     @@HIT2LOSE = 3
 
 
-    def initialize(number, intelligence, strength)
-      @number = number
-      @intelligence = intelligence
-      @strength = strength
-      @name = "Player# #{@number}"
-
-      @health = @@INITIAL_HEALTH
+    def initialize(number, intelligence, strength, health, w_deck, s_deck)
+      super("Player# #{number}", intelligence, strength, @@INITIAL_HEALTH)
       @consecutive_hits = 0
+
+      @weapon_deck = w_deck
+      @shield_deck = s_deck
 
       @weapons = []
       @shields = []
@@ -23,6 +21,26 @@ module Irrgarten
       @shields.push(new_shield)
     end
 
+    def self.copy(player)
+      super(player)
+      @number = player.number
+      @consecutive_hits = player.consecutive_hits
+
+      set_health(player.health)
+      set_pos(player.row,player.col)
+
+      @weapons.clear
+      @shields.clear
+
+      for w in player.weapons
+        @weapons << w
+      end
+
+      for s in player.shields
+        @shields << s
+      end
+
+    end
     def resurrect
       @consecutive_hits = 0
       @health = @@INITIAL_HEALTH
@@ -46,7 +64,7 @@ module Irrgarten
     end
 
     def dead
-      @health <= 0
+      super.dead
     end
 
     def attack

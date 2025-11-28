@@ -1,42 +1,37 @@
 # frozen_string_literal: true
 module Irrgarten
-  class Monster
+  class Monster < LabyrinthCharacter
     INITIAL_HEALTH = 5
 
     def initialize(name, intelligence, strength)
-      @name = name
-      @intelligence = intelligence
-      @strength = strength
-      @health = INITIAL_HEALTH
+      super(name,intelligence,strength,INITIAL_HEALTH)
     end
 
     def dead
-      @health <= 0
+      super.dead
     end
 
     def attack
-      Irrgarten::Dice.intensity(@strength)
+      Dice.intensity(strength)
     end
 
     def set_pos(row, col)
-      @row = row
-      @col = col
+      super.set_pos(row, col)
     end
 
     def to_s
-      "\n\nNombre: #{@name}\nPosicion: (#{@row},#{@col})\nIntelligence: #{@intelligence}\nStrength: #{@strength}\nHealth: #{@health}"
-      
+      super.to_s
     end
 
     def got_wounded
-      @health -= 1
+      super.set_health(super.health - 1)
     end
 
     def defend(received_attack)
       is_dead = dead
 
       unless is_dead
-        defensive_energy = Irrgarten::Dice.intensity(@intelligence)
+        defensive_energy = Dice.intensity(@intelligence)
 
         if defensive_energy < received_attack
           got_wounded
