@@ -186,8 +186,8 @@ module Irrgarten
       pos = []
       begin
 
-        pos[@@ROW] = Irrgarten::Dice.random_pos(@n_rows)
-        pos[@@COL] = Irrgarten::Dice.random_pos(@n_cols)
+        pos[@@ROW] = Dice.random_pos(@n_rows)
+        pos[@@COL] = Dice.random_pos(@n_cols)
 
       end until empty_pos(pos[@@ROW], pos[@@COL])
 

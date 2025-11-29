@@ -27,13 +27,13 @@ module Irrgarten
     end
 
     def game_state
-      Irrgarten::GameState.new(@lab.to_s, @players, @monsters, @current_player_index, finished, @log)
+      GameState.new(@lab.to_s, @players, @monsters, @current_player_index, finished, @log)
     end
 
     private def configure_labyrinth
       i = 0
       begin
-        monster = Irrgarten::Monster.new("Monster# #{i}", Irrgarten::Dice.random_intelligence, Irrgarten::Dice.random_strength)
+        monster = :Monster.new("Monster# #{i}", Dice.random_intelligence, Dice.random_strength)
         pos = @lab.random_empty_pos
 
         @lab.add_monster(pos[0],pos[1],monster)
@@ -99,7 +99,7 @@ module Irrgarten
     end
 
     private def manage_resurrection
-      resurrect = Irrgarten::Dice.resurrect_player
+      resurrect = Dice.resurrect_player
       if resurrect
         @players[@current_player_index].resurrect
         log_resurrected
