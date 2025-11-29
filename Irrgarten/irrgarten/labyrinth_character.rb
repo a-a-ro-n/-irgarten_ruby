@@ -9,8 +9,8 @@ module Irrgarten
     end
     def self.copy(other)
       new(other.name,other.intelligence,other.strength, other.health)
-      @row = other.row
-      @col = other.col
+      @row = other.instance_variable_get(:@row)
+      @col = other.instance_variable_get(:@col)
     end
 
      def dead
