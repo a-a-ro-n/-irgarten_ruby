@@ -21,7 +21,7 @@ module Main
   class GAME
     def self.main
       players = 2
-      game = Game.new(players)
+      game = Irrgarten::Game.new(players)
       view = UI::TextUI.new
       control = Control::Controller.new(game,view)
       control.play

@@ -33,7 +33,7 @@ module Irrgarten
     private def configure_labyrinth
       i = 0
       begin
-        monster = :Monster.new("Monster# #{i}", Dice.random_intelligence, Dice.random_strength)
+        monster = Monster.new("Monster# #{i}", Dice.random_intelligence, Dice.random_strength)
         pos = @lab.random_empty_pos
 
         @lab.add_monster(pos[0],pos[1],monster)

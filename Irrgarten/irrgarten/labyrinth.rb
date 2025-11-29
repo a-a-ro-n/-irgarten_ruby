@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+require_relative 'labyrinth_character'
 module Irrgarten
   class Labyrinth
     @@BLOCK_CHAR = 'X'

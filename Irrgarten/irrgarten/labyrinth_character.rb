@@ -6,6 +6,9 @@ module Irrgarten
       @intelligence = intelligence
       @strength = strength
       @health = health
+
+       @row = -1
+       @col = -1
     end
     def self.copy(other)
       new(other.name,other.intelligence,other.strength, other.health)
@@ -17,7 +20,7 @@ module Irrgarten
        @health <= 0
      end
 
-     def set_pos(row,col)
+     protected def set_pos(row, col)
        @row = row
        @col = col
      end
