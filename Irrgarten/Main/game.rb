@@ -13,6 +13,9 @@ require_relative '../irrgarten/player'
 require_relative '../irrgarten/labyrinth'
 require_relative '../irrgarten/monster'
 require_relative '../irrgarten/weapon'
+require_relative '../irrgarten/labyrinth_character'
+require_relative '../irrgarten/combat_element'
+require_relative '../irrgarten/fuzzy_player'
 
 module Main
   class GAME
