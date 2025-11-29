@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+require_relative 'player'
 module Irrgarten
   class FuzzyPlayer < Player
     
@@ -12,7 +12,7 @@ module Irrgarten
     end
 
     def attack
-      sum_weapons + Dice.intensity(@strengh)
+      sum_weapons + Dice.intensity(@strength)
     end
 
     protected def defensive_energy

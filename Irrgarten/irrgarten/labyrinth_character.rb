@@ -1,6 +1,5 @@
 # frozen_string_literal: true
-
-module Irrgerten
+module Irrgarten
   class LabyrinthCharacter
      def initialize (name,intelligence,strength,health)
       @name = name
@@ -18,7 +17,7 @@ module Irrgerten
        @health <= 0
      end
 
-     def set_pod(row,col)
+     def set_pos(row,col)
        @row = row
        @col = col
      end

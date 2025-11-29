@@ -9,16 +9,16 @@ module Irrgarten
     def initialize(nplayers)
       @players = []
       @monsters = []
-      @lab = Irrgarten::Labyrinth.new(@@NROWS,@@NCOLS,Irrgarten::Dice.random_pos(@@NROWS),Irrgarten::Dice.random_pos(@@NCOLS))
+      @lab = Labyrinth.new(@@NROWS,@@NCOLS,Dice.random_pos(@@NROWS),Dice.random_pos(@@NCOLS))
       @log = "--- Start_Game ---\n"
       i = 0
       begin
-        player = Irrgarten::Player.new(i.to_s, Irrgarten::Dice.random_intelligence, Irrgarten::Dice.random_strength)
+        player = Player.new(i.to_s, Dice.random_intelligence, Dice.random_strength, 10)
         @players.push(player)
         i += 1
       end while (i < nplayers)
       configure_labyrinth
-      @current_player_index = Irrgarten::Dice.who_starts(nplayers)
+      @current_player_index = Dice.who_starts(nplayers)
       @lab.spread_players(@players)
     end
 

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require_relative 'dice'
+require_relative 'combat_element'
 module Irrgarten
   class Shield < CombatElement
     def initialize(p,u)

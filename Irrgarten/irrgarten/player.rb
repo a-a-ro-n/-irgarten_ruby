@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require_relative 'labyrinth_character'
 module Irrgarten
   class Player < LabyrinthCharacter
     @@MAX_WEAPONS = 2
@@ -7,20 +8,25 @@ module Irrgarten
     @@HIT2LOSE = 3
 
 
-    def initialize(number, intelligence, strength, health, w_deck, s_deck)
+    def initialize(number, intelligence, strength, health)
       super("Player# #{number}", intelligence, strength, @@INITIAL_HEALTH)
       @consecutive_hits = 0
-
-      @weapon_deck = w_deck
-      @shield_deck = s_deck
 
       @weapons = []
       @shields = []
 
-      @weapons.push(@weapon_deck.next_card)
-      @shields.push(@shield_deck.next_card)
+      @weapons.push(new_weapon)
+      @shields.push(new_shield)
     end
-
+    def weapons
+      @weapons
+    end
+    def shields
+      @shields
+    end
+    def consecutive_hits
+      @consecutive_hits
+    end
     def self.copy(player)
       super(player)
       @number = player.number
@@ -32,12 +38,13 @@ module Irrgarten
       @weapons.clear
       @shields.clear
 
+
       for w in player.weapons
-        @weapons << w
+        @weapons.push(w)
       end
 
       for s in player.shields
-        @shields << s
+        @shields.push(s)
       end
 
     end
@@ -127,16 +134,15 @@ module Irrgarten
       end
     end
 
-    # Sustituido por next_card
-    #private def new_shield
-    #  Irrgarten::Shield.new(Dice.shield_power, Dice.use_left)
-    #end
+    private def new_shield
+      Shield.new(Dice.shield_power, Dice.use_left)
+    end
 
-    #private def new_weapon
-    # Irrgarten::Weapon.new(Dice.weapon_power, Dice.use_left)
-    #end
+    private def new_weapon
+      Weapon.new(Dice.weapon_power, Dice.use_left)
+    end
 
-    protected def sum_weapons # Fuzzy
+    protected def sum_weapons
       sum = 0
 
       for weapon in @weapons do
@@ -146,7 +152,7 @@ module Irrgarten
       sum
     end
 
-    protected def sum_shields # Fuzzy
+    protected def sum_shields
       sum = 0
 
       for shield in @shields do
@@ -156,7 +162,7 @@ module Irrgarten
       sum
     end
 
-    protected def defensive_energy # Fuzzy
+    protected def defensive_energy
       @intelligence + sum_shields
     end
 
@@ -183,7 +189,7 @@ module Irrgarten
     end
 
     private def got_wounded
-      super.set_health(super.health - 1)
+      @health -= 1
     end
 
     private def inc_consecutive_hits
@@ -195,16 +201,16 @@ module Irrgarten
       s_reward = Dice.shield_reward
 
       w_reward.times do
-        wnew = @weapon_deck.next_card
+        wnew = new_weapon
         receive_weapons(wnew)
       end
 
       s_reward.times do
-        snew = @shield_deck.next_card
+        snew = new_shield
         receive_shields(snew)
       end
       extra_health = Dice.health_reward
-      super.set_health(super.health + extra_health)
+      @health += extra_health
     end
 
     def defend(received_attack)
@@ -212,11 +218,9 @@ module Irrgarten
     end
 
     def move(direction, valid_moves)
-      size = valid_moves.size
-      contained = valid_moves.include?(direction)
       result = direction
 
-      if (size > 0) &&  !contained
+      if (valid_moves.size > 0) &&  !valid_moves.include?(direction)
         first_element = valid_moves[0]
         result = first_element
       end
