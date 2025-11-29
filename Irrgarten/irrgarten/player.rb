@@ -17,8 +17,8 @@ module Irrgarten
       @weapons = []
       @shields = []
 
-      @weapons.push(new_weapon)
-      @shields.push(new_shield)
+      @weapons.push(@weapon_deck.next_card)
+      @shields.push(@shield_deck.next_card)
     end
 
     def self.copy(player)
@@ -72,7 +72,7 @@ module Irrgarten
     end
 
     def to_s
-      string = "\nName: #{@name}\nPosicion: (#{@row}, #{@col})\nIntelligence: #{@intelligence}\nStrength: #{@strength}\nHealth: #{@health}"
+      string = super.to_s
 
               string += "\n\nWeapons: \n"
               for w in @weapons do
@@ -127,15 +127,16 @@ module Irrgarten
       end
     end
 
-    private def new_shield
-      Irrgarten::Shield.new(Dice.shield_power, Dice.use_left)
-    end
+    # Sustituido por next_card
+    #private def new_shield
+    #  Irrgarten::Shield.new(Dice.shield_power, Dice.use_left)
+    #end
 
-    private def new_weapon
-      Irrgarten::Weapon.new(Dice.weapon_power, Dice.use_left)
-    end
+    #private def new_weapon
+    # Irrgarten::Weapon.new(Dice.weapon_power, Dice.use_left)
+    #end
 
-    private def sum_weapons
+    protected def sum_weapons # Fuzzy
       sum = 0
 
       for weapon in @weapons do
@@ -145,7 +146,7 @@ module Irrgarten
       sum
     end
 
-    private def sum_shields
+    protected def sum_shields # Fuzzy
       sum = 0
 
       for shield in @shields do
@@ -155,7 +156,7 @@ module Irrgarten
       sum
     end
 
-    private def defensive_energy
+    protected def defensive_energy # Fuzzy
       @intelligence + sum_shields
     end
 
@@ -182,7 +183,7 @@ module Irrgarten
     end
 
     private def got_wounded
-      @health -= 1
+      super.set_health(super.health - 1)
     end
 
     private def inc_consecutive_hits
@@ -190,20 +191,20 @@ module Irrgarten
     end
 
     def receive_reward
-      w_reward = Irrgarten::Dice.weapons_reward
-      s_reward = Irrgarten::Dice.shield_reward
+      w_reward = Dice.weapons_reward
+      s_reward = Dice.shield_reward
 
       w_reward.times do
-        wnew = new_weapon
+        wnew = @weapon_deck.next_card
         receive_weapons(wnew)
       end
 
       s_reward.times do
-        snew = new_shield
+        snew = @shield_deck.next_card
         receive_shields(snew)
       end
-      extra_health = Irrgarten::Dice.health_reward
-      @health += extra_health
+      extra_health = Dice.health_reward
+      super.set_health(super.health + extra_health)
     end
 
     def defend(received_attack)

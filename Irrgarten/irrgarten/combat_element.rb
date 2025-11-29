@@ -23,6 +23,10 @@ module Irrgarten
       @uses
     end
 
+    protected def set_uses(uses)
+      @uses = uses
+    end
+
     def produce_effect
       result = 0
       if @uses > 0

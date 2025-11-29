@@ -2,36 +2,30 @@
 require_relative 'dice'
 
 module Irrgarten
-  class Weapon
+  class Weapon < CombatElement
     def initialize(p,u)
-      @power = p
-      @uses = u
+      super(p,u)
     end
 
     public
     def attack
-      damage = 0
-      if @uses > 0
-        damage = @power
-        @uses -= 1
-      end
-      damage
+      super.produce_effect
     end
 
     def to_s
-      "W[#{@power.to_f}, #{@uses}]"
+      "W[#{super.to_s}]"
     end
 
     def discard
-      Irrgarten::Dice.discard_element(@uses)
+      super.discard
     end
 
     def uses
-      @uses
+      super.uses
     end
 
     def power
-      @power
+      super.effect
     end
 
   end
