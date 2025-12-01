@@ -17,6 +17,8 @@ module Irrgarten
 
       @weapons.push(new_weapon)
       @shields.push(new_shield)
+
+      @number = number
     end
     def weapons
       @weapons

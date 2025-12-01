@@ -13,7 +13,7 @@ module Irrgarten
     end
 
     def to_s
-      "W[#{super.to_s}]"
+      "W[#{super}]"
     end
 
     def discard
@@ -21,7 +21,7 @@ module Irrgarten
     end
 
     def uses
-      super.uses
+      super
     end
 
     def power
