@@ -79,7 +79,7 @@ module Irrgarten
         monster_attack = monster.attack
         lose = current_player.defend(monster_attack)
 
-        unless lose
+        if !lose
           player_attack = current_player.attack
           winner = GameCharacter::PLAYER
           lose = monster.defend(player_attack)

@@ -221,7 +221,7 @@ module Irrgarten
     def move(direction, valid_moves)
       result = direction
 
-      if (valid_moves.size > 0) &&  !valid_moves.include?(direction)
+      if (valid_moves.size > 0) && !valid_moves.include?(direction)
         first_element = valid_moves[0]
         result = first_element
       end

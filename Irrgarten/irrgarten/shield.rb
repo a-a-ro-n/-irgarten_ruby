@@ -7,23 +7,23 @@ module Irrgarten
     end
 
     def uses
-      super.uses
+      super
     end
 
     def power
-      super.effect
+      effect
     end
 
     def protect
-      super.produce_effect
+      produce_effect
     end
 
     def to_s
-      "S[#{super.to_s}]"
+      "S[#{super}]"
     end
 
     def discard
-      super.discard
+      super
     end
 
   end

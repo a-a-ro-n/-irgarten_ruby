@@ -9,7 +9,7 @@ module Irrgarten
 
     public
     def attack
-      super.produce_effect
+      produce_effect
     end
 
     def to_s
@@ -17,7 +17,7 @@ module Irrgarten
     end
 
     def discard
-      super.discard
+      super
     end
 
     def uses
@@ -25,7 +25,7 @@ module Irrgarten
     end
 
     def power
-      super.effect
+      effect
     end
 
   end
