@@ -50,15 +50,13 @@ module Irrgarten
      end
 
      def got_wounded
-
+      @health -= 1
      end
 
      def attack
-
      end
 
      def defend(attack)
-
      end
 
      def to_s

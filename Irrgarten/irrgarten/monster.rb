@@ -5,11 +5,11 @@ module Irrgarten
     INITIAL_HEALTH = 5
 
     def initialize(name, intelligence, strength)
-      super(name,intelligence,strength,INITIAL_HEALTH)
+      super(name, intelligence, strength, INITIAL_HEALTH)
     end
 
     def dead
-      super.dead
+      super
     end
 
     def attack
@@ -17,15 +17,15 @@ module Irrgarten
     end
 
     def set_pos(row, col)
-      super.set_pos(row, col)
+      super
     end
 
     def to_s
-      super.to_s
+      super
     end
 
     def got_wounded
-      super.set_health(super.health - 1)
+      super
     end
 
     def defend(received_attack)

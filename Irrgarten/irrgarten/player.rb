@@ -33,7 +33,7 @@ module Irrgarten
       @consecutive_hits = player.consecutive_hits
 
       set_health(player.health)
-      set_pos(player.row,player.col)
+      set_pos(player.row, player.col)
 
       @weapons.clear
       @shields.clear
@@ -54,11 +54,11 @@ module Irrgarten
     end
 
     def row
-      @row
+      super
     end
 
     def col
-      @col
+      super
     end
 
     def number
@@ -66,12 +66,11 @@ module Irrgarten
     end
 
     def set_pos(row, col)
-      @row = row
-      @col = col
+      super
     end
 
     def dead
-      super.dead
+      super
     end
 
     def attack
@@ -189,7 +188,7 @@ module Irrgarten
     end
 
     private def got_wounded
-      @health -= 1
+      super
     end
 
     private def inc_consecutive_hits
@@ -210,7 +209,7 @@ module Irrgarten
         receive_shields(snew)
       end
       extra_health = Dice.health_reward
-      @health += extra_health
+      super.set_health(super.health + extra_health)
     end
 
     def defend(received_attack)

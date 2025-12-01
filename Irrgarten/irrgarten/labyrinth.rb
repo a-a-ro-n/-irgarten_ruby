@@ -63,7 +63,7 @@ module Irrgarten
             if combat_pos(i,j)
               row_string += " #{@@COMBAT_CHAR}"
             else
-              row_string += " #{@player_pos[i][j].number}"
+              row_string += " #{@player_pos[i][j].number.to_s}"
             end
           else
             row_string += " #{@grid[i][j]}"
